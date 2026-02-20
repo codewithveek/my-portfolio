@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Space_Grotesk,
+  Inter,
+  JetBrains_Mono,
+} from "next/font/google";
 import "./globals.css";
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600", "700"],
+});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -21,8 +33,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio - Full Stack Developer",
-  description: "A brutalist web developer portfolio showcasing projects, skills, and experience",
+  title: "Your Name — Product & Web Engineer",
+  description:
+    "An editorial-style portfolio showcasing selected projects, systems thinking, and modern product engineering.",
 };
 
 export default function RootLayout({
@@ -33,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${cormorant.variable} ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
       </body>

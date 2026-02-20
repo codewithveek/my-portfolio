@@ -48,5 +48,5 @@ export function useIntersectionObserver(
         };
     }, [threshold, root, rootMargin, freezeOnceVisible, isIntersecting]);
 
-    return [elementRef, isIntersecting];
+    return [elementRef as React.RefObject<HTMLDivElement>, isIntersecting];
 }

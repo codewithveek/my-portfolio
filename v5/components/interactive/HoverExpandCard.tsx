@@ -1,112 +1,141 @@
-'use client';
+"use client";
 
-import { useRef } from 'react';
-import { animate } from 'animejs';
-import { useIsMobile } from '@/hooks/useMediaQuery';
-import type { Skill } from '@/data/skills';
-import * as Icons from 'lucide-react';
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useMediaQuery";
+import type { Skill } from "@/data/skills";
+import {
+  Code,
+  FileCode,
+  Braces,
+  Globe,
+  Palette,
+  Server,
+  Database,
+  Cloud,
+  GitBranch,
+  Container,
+  Terminal,
+  Workflow,
+  Cpu,
+  type LucideIcon,
+} from "lucide-react";
 
 interface HoverExpandCardProps {
-    skill: Skill;
+  skill: Skill;
 }
 
 export function HoverExpandCard({ skill }: HoverExpandCardProps) {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
+  const [isExpanded, setIsExpanded] = useState(false);
 
-    const handleExpand = () => {
-        if (!cardRef.current) return;
+  const iconMap: Record<string, LucideIcon> = {
+    javascript: FileCode,
+    typescript: Braces,
+    react: Code,
+    nextjs: Globe,
+    vue: Palette,
+    html: FileCode,
+    css: Palette,
+    tailwind: Palette,
+    nodejs: Server,
+    python: Terminal,
+    express: Server,
+    graphql: Workflow,
+    api: Workflow,
+    postgresql: Database,
+    mongodb: Database,
+    redis: Database,
+    firebase: Cloud,
+    docker: Container,
+    aws: Cloud,
+    git: GitBranch,
+    cicd: Workflow,
+    linux: Terminal,
+  };
 
-        animate(cardRef.current, {
-            width: [120, 250],
-            height: [120, 180],
-            duration: 300,
-            ease: 'out(2)',
-        });
-    };
+  const handleHoverStart = () => {
+    if (!isMobile) {
+      setIsExpanded(true);
+    }
+  };
 
-    const handleCollapse = () => {
-        if (!cardRef.current) return;
+  const handleHoverEnd = () => {
+    if (!isMobile) {
+      setIsExpanded(false);
+    }
+  };
 
-        animate(cardRef.current, {
-            width: [250, 120],
-            height: [180, 120],
-            duration: 200,
-            ease: 'in(2)',
-        });
-    };
+  const handleClick = () => {
+    if (isMobile) {
+      setIsExpanded(!isExpanded);
+    }
+  };
 
-    const handleMouseEnter = () => {
-        if (!isMobile) {
-            handleExpand();
-        }
-    };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      setIsExpanded(!isExpanded);
+    }
+  };
 
-    const handleMouseLeave = () => {
-        if (!isMobile) {
-            handleCollapse();
-        }
-    };
+  // Get the icon component dynamically (fallback to Code icon)
+  const IconComponent = iconMap[skill.icon.toLowerCase()] ?? Cpu;
 
-    const handleClick = () => {
-        if (isMobile) {
-            const currentWidth = cardRef.current?.offsetWidth || 120;
-            if (currentWidth === 120) {
-                handleExpand();
-            } else {
-                handleCollapse();
-            }
-        }
-    };
-
-    // Get the icon component dynamically (fallback to Code icon)
-    const IconComponent = (Icons as any)[skill.icon] || Icons.Code;
-
-    return (
-        <div
-            ref={cardRef}
-            className="bg-white flex flex-col justify-center items-center p-4 overflow-hidden transition-all"
-            style={{
-                border: '2px solid var(--color-black)',
-                borderRadius: 0,
-                width: '120px',
-                height: '120px',
-            }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-            role="button"
-            tabIndex={0}
-            aria-label={`${skill.name} - ${skill.proficiency}% proficiency`}
-        >
-            <div className="text-center">
-                <div className="mb-2 flex justify-center">
-                    <IconComponent size={32} strokeWidth={2} />
-                </div>
-                <h4 className="font-bold text-sm">{skill.name}</h4>
-
-                {/* Expanded content - only visible when card is expanded */}
-                <div className="mt-4 w-full" style={{ opacity: 0 }}>
-                    <div className="text-xs text-gray-600 mb-2">
-                        {skill.years} {skill.years === 1 ? 'year' : 'years'} exp.
-                    </div>
-
-                    {/* Proficiency Bar */}
-                    <div
-                        className="w-full h-4 mb-2"
-                        style={{ border: '1px solid var(--color-black)' }}
-                    >
-                        <div
-                            className="h-full bg-[var(--color-hover)]"
-                            style={{ width: `${skill.proficiency}%` }}
-                        />
-                    </div>
-
-                    <div className="text-xs text-gray-700 line-clamp-3">
-                        {skill.description}
-                    </div>
-                </div>
-            </div>
+  return (
+    <motion.div
+      className="rounded-2xl border border-[var(--line)] bg-[#12182a] p-4 overflow-hidden w-[164px]"
+      animate={{ height: isExpanded ? 228 : 124 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      onHoverStart={handleHoverStart}
+      onHoverEnd={handleHoverEnd}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isExpanded}
+      aria-label={`${skill.name} - ${skill.proficiency}% proficiency`}
+    >
+      <div className="w-full">
+        <div className="mb-2 flex justify-between items-center">
+          <IconComponent size={28} strokeWidth={2} />
+          <span className="text-[10px] tracking-[0.1em] uppercase text-[var(--text-muted)]">
+            {skill.proficiency}%
+          </span>
         </div>
-    );
+        <h4 className="font-semibold text-sm text-[var(--text)] mb-2">
+          {skill.name}
+        </h4>
+
+        <div className="w-full h-1.5 rounded-full bg-[#26314d] overflow-hidden mb-3">
+          <motion.div
+            className="h-full bg-[#6e84d4]"
+            initial={{ width: 0 }}
+            whileInView={{ width: `${skill.proficiency}%` }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          />
+        </div>
+
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="text-xs text-[var(--text-muted)] mb-2">
+                {skill.years} {skill.years === 1 ? "year" : "years"} experience
+              </div>
+
+              <div className="text-xs leading-relaxed text-[var(--text-muted)] line-clamp-4">
+                {skill.description}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
 }

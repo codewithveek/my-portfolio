@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { useScrollProgress } from './useScrollProgress';
-import { clamp } from '../utils/debounce';
+import { useEffect, useRef, useState } from "react";
+import { useScrollProgress } from "./useScrollProgress";
+import { clamp } from "../utils/debounce";
 
 interface StackingEffectOptions {
   index: number;
@@ -10,7 +10,7 @@ interface StackingEffectOptions {
 }
 
 interface StackingEffectReturn {
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<HTMLElement | null>;
   style: React.CSSProperties;
 }
 
@@ -22,10 +22,16 @@ interface StackingEffectReturn {
 export function useStackingEffect(
   options: StackingEffectOptions
 ): StackingEffectReturn {
-  const { index, totalSections, scaleAmount = 0.05, translateYAmount = 20 } = options;
+  const {
+    index,
+    totalSections,
+    scaleAmount = 0.045,
+    translateYAmount = 18,
+  } = options;
 
-  const elementRef = useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const [sectionId, setSectionId] = useState<string | undefined>(undefined);
 
   // Set element ID and intersection observer
   useEffect(() => {
@@ -36,6 +42,8 @@ export function useStackingEffect(
       elementRef.current.id = `stacking-section-${index}`;
     }
 
+    setSectionId(elementRef.current.id);
+
     // Set up intersection observer
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -43,7 +51,7 @@ export function useStackingEffect(
       },
       {
         threshold: 0.1,
-        rootMargin: '-10% 0px -10% 0px',
+        rootMargin: "-10% 0px -10% 0px",
       }
     );
 
@@ -55,15 +63,22 @@ export function useStackingEffect(
   }, [index]);
 
   // Get scroll progress for this element
-  const progress = useScrollProgress(elementRef.current?.id);
+  const progress = useScrollProgress(sectionId);
+  const normalizedProgress = clamp((progress - 0.08) / 0.84, 0, 1);
+
+  const stackIndex = Math.max(index, 1);
 
   // Calculate transform values based on scroll progress
   const scale = isIntersecting
-    ? clamp(1 - (progress * scaleAmount * index), 0.85, 1)
+    ? clamp(1 - normalizedProgress * scaleAmount * stackIndex, 0.88, 1)
     : 1;
 
   const translateY = isIntersecting
-    ? -clamp(progress * translateYAmount * index, 0, translateYAmount * 3)
+    ? -clamp(
+        normalizedProgress * translateYAmount * stackIndex,
+        0,
+        translateYAmount * 3
+      )
     : 0;
 
   // Calculate z-index (higher index = lower in stack)
@@ -73,9 +88,10 @@ export function useStackingEffect(
   const style: React.CSSProperties = {
     transform: `scale(${scale}) translateY(${translateY}px)`,
     zIndex,
-    transformOrigin: 'top center',
-    transition: 'transform 0.6s cubic-bezier(0.19, 1, 0.22, 1)',
-    willChange: isIntersecting ? 'transform' : 'auto',
+    transformOrigin: "top center",
+    transition: "transform 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
+    position: "relative",
+    willChange: isIntersecting ? "transform" : "auto",
   };
 
   return {

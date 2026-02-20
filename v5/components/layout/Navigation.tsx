@@ -1,141 +1,147 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
-    { href: '#about', label: 'About' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#contact', label: 'Contact' },
+  { href: "#about", label: "About" },
+  { href: "#projects", label: "Projects" },
+  { href: "#skills", label: "Skills" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export function Navigation() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [activeSection, setActiveSection] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const sections = navLinks.map((link) => link.href.substring(1));
-            const scrollPosition = window.scrollY + 100;
+  const NAV_OFFSET = 96;
 
-            for (const sectionId of sections) {
-                const element = document.getElementById(sectionId);
-                if (element) {
-                    const { offsetTop, offsetHeight } = element;
-                    if (
-                        scrollPosition >= offsetTop &&
-                        scrollPosition < offsetTop + offsetHeight
-                    ) {
-                        setActiveSection(sectionId);
-                        break;
-                    }
-                }
-            }
-        };
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navLinks.map((link) => link.href.substring(1));
+      const scrollPosition = window.scrollY + NAV_OFFSET;
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const handleNavClick = (href: string) => {
-        const id = href.substring(1);
-        const element = document.getElementById(id);
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+          const { offsetTop, offsetHeight } = element;
+          if (
+            scrollPosition >= offsetTop &&
+            scrollPosition < offsetTop + offsetHeight
+          ) {
+            setActiveSection(sectionId);
+            break;
+          }
         }
-        setIsMenuOpen(false);
+      }
     };
 
-    return (
-        <nav
-            className="fixed top-0 left-0 right-0 z-[100] bg-white"
-            style={{
-                borderBottom: '2px solid var(--color-black)',
-                height: '80px',
-            }}
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [NAV_OFFSET]);
+
+  const handleNavClick = (href: string) => {
+    const id = href.substring(1);
+    const element = document.getElementById(id);
+    if (element) {
+      const top =
+        element.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <nav
+      className="fixed top-0 left-0 right-0 z-[100]"
+      style={{
+        borderBottom: "1px solid var(--line)",
+        height: "var(--nav-height)",
+        background: "rgba(5, 6, 11, 0.72)",
+        backdropFilter: "blur(10px)",
+      }}
+    >
+      <div className="container mx-auto h-full flex items-center justify-between">
+        <a
+          href="#hero"
+          className="serif-display text-2xl md:text-3xl tracking-wide"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         >
-            <div className="container mx-auto h-full flex items-center justify-between px-6">
-                {/* Logo */}
-                <a
-                    href="#hero"
-                    className="text-2xl font-bold uppercase tracking-tight"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                    Portfolio
-                </a>
+          your name
+        </a>
 
-                {/* Desktop Navigation */}
-                <ul className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link) => (
-                        <li key={link.href}>
-                            <a
-                                href={link.href}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    handleNavClick(link.href);
-                                }}
-                                className={`
-                  uppercase text-sm font-semibold tracking-wider
-                  px-4 py-2 transition-all duration-200
-                  hover:bg-[var(--color-hover)] hover:text-black
-                  ${activeSection === link.href.substring(1)
-                                        ? 'underline decoration-[3px] underline-offset-4'
-                                        : ''
-                                    }
+        <ul className="hidden md:flex items-center gap-3">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
+                className={`
+                  uppercase text-xs font-semibold tracking-[0.14em]
+                  px-3 py-2 rounded-full border transition-all duration-200
+                  ${
+                    activeSection === link.href.substring(1)
+                      ? "text-[var(--text)] border-[#596cae]"
+                      : "text-[var(--text-muted)] border-[var(--line)]"
+                  }
                 `}
-                                style={{ letterSpacing: '0.1em' }}
-                            >
-                                {link.label}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-                {/* Mobile Menu Button */}
-                <button
-                    className="md:hidden p-2"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-                    aria-expanded={isMenuOpen}
-                >
-                    {isMenuOpen ? (
-                        <X size={28} strokeWidth={2} />
-                    ) : (
-                        <Menu size={28} strokeWidth={2} />
-                    )}
-                </button>
-            </div>
+        <button
+          className="md:hidden p-2"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+        >
+          {isMenuOpen ? (
+            <X size={28} strokeWidth={2} />
+          ) : (
+            <Menu size={28} strokeWidth={2} />
+          )}
+        </button>
+      </div>
 
-            {/* Mobile Menu */}
-            {isMenuOpen && (
-                <div
-                    className="md:hidden absolute top-[80px] left-0 right-0 bg-black"
-                    style={{ border: '2px solid var(--color-black)' }}
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div
+          className="md:hidden absolute left-0 right-0"
+          style={{
+            top: "var(--nav-height)",
+            borderTop: "1px solid var(--line)",
+            background: "rgba(9, 11, 18, 0.98)",
+          }}
+        >
+          <ul className="container mx-auto py-4 flex flex-col gap-2">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                  className="block uppercase text-xs font-semibold tracking-[0.14em] px-4 py-3 rounded-full border border-[var(--line)] text-[var(--text-muted)] hover:text-[var(--text)]"
                 >
-                    <ul className="flex flex-col">
-                        {navLinks.map((link) => (
-                            <li key={link.href} style={{ borderBottom: '1px solid white' }}>
-                                <a
-                                    href={link.href}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNavClick(link.href);
-                                    }}
-                                    className="block uppercase text-sm font-semibold tracking-wider px-6 py-4 text-white hover:bg-[var(--color-hover)] hover:text-black transition-colors"
-                                    style={{ letterSpacing: '0.1em' }}
-                                >
-                                    {link.label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </nav>
-    );
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </nav>
+  );
 }

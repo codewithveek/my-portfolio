@@ -1,189 +1,101 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { animate } from 'animejs';
-import { ExternalLink, Github, ChevronDown, ChevronUp } from 'lucide-react';
-import type { Project } from '@/data/projects';
+import { motion } from "framer-motion";
+import { ExternalLink, Github } from "lucide-react";
+import type { Project } from "@/data/projects";
 
 interface ProjectCardProps {
-    project: Project;
+  project: Project;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const cardRef = useRef<HTMLDivElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
+  const gradients = [
+    "linear-gradient(145deg, #3a4778, #1b2237)",
+    "linear-gradient(145deg, #3f5d74, #15232f)",
+    "linear-gradient(145deg, #4f3b75, #1f1835)",
+    "linear-gradient(145deg, #4f4e74, #1f2038)",
+  ];
 
-    const handleToggle = () => {
-        if (!cardRef.current || !contentRef.current) return;
+  const visual = gradients[project.id % gradients.length];
 
-        const newExpandedState = !isExpanded;
+  return (
+    <motion.article
+      className="rounded-3xl overflow-hidden"
+      style={{
+        border: "1px solid var(--line)",
+        background: "linear-gradient(180deg, #12192a, #0f1422)",
+      }}
+      whileHover={{ y: -6, scale: 1.01 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="relative h-[260px] md:h-[300px] overflow-hidden">
+        <motion.div
+          className="absolute inset-0"
+          style={{ background: visual }}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.45 }}
+        />
 
-        if (newExpandedState) {
-            // Expanding
-            const fullHeight = cardRef.current.scrollHeight;
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(5,7,12,0.78))]" />
 
-            animate(cardRef.current, {
-                height: [cardRef.current.offsetHeight, fullHeight],
-                duration: 500,
-                easing: 'easeOutQuart',
-            });
-
-            // Increase border width
-            animate(cardRef.current, {
-                borderWidth: ['2px', '3px'],
-                duration: 300,
-                easing: 'easeOutQuad',
-            });
-        } else {
-            // Collapsing
-            animate(cardRef.current, {
-                height: [cardRef.current.offsetHeight, 250],
-                duration: 400,
-                easing: 'easeInQuart',
-            });
-
-            // Decrease border width
-            animate(cardRef.current, {
-                borderWidth: ['3px', '2px'],
-                duration: 300,
-                easing: 'easeInQuad',
-            });
-        }
-
-        setIsExpanded(newExpandedState);
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleToggle();
-        }
-    };
-
-    return (
-        <div
-            ref={cardRef}
-            className="bg-white overflow-hidden cursor-pointer"
-            style={{
-                border: '2px solid var(--color-black)',
-                borderRadius: 0,
-                height: isExpanded ? 'auto' : '250px',
-            }}
-            onClick={handleToggle}
-            onKeyDown={handleKeyDown}
-            role="button"
-            aria-expanded={isExpanded}
-            aria-label={`${project.title} - Click to ${isExpanded ? 'collapse' : 'expand'}`}
-            tabIndex={0}
-        >
-            {/* Collapsed Content - Always Visible */}
-            <div className="p-6">
-                <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-                <p className="text-gray-600 mb-4">{project.shortDesc}</p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                    {project.techStack.slice(0, 4).map((tech) => (
-                        <span
-                            key={tech}
-                            className="px-3 py-1 text-xs font-semibold uppercase bg-[var(--color-hover)] text-black"
-                            style={{ border: '1px solid var(--color-black)' }}
-                        >
-                            {tech}
-                        </span>
-                    ))}
-                    {project.techStack.length > 4 && (
-                        <span
-                            className="px-3 py-1 text-xs font-semibold uppercase bg-gray-200 text-black"
-                            style={{ border: '1px solid var(--color-black)' }}
-                        >
-                            +{project.techStack.length - 4} more
-                        </span>
-                    )}
-                </div>
-
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                    <span>{isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}</span>
-                    <span className="uppercase">{isExpanded ? 'Less' : 'More'} Details</span>
-                </div>
-            </div>
-
-            {/* Expanded Content */}
-            {isExpanded && (
-                <div ref={contentRef} className="px-6 pb-6">
-                    <div className="mb-6">
-                        <h4 className="text-lg font-bold mb-2">Full Description</h4>
-                        <p className="text-gray-700 leading-relaxed">{project.fullDescription}</p>
-                    </div>
-
-                    <div className="mb-4">
-                        <h4 className="text-lg font-bold mb-2">All Technologies</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {project.techStack.map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="px-3 py-1 text-xs font-semibold uppercase bg-[var(--color-hover)] text-black"
-                                    style={{ border: '1px solid var(--color-black)' }}
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                        <div>
-                            <h4 className="text-sm font-bold uppercase mb-1">Role</h4>
-                            <p className="text-gray-700">{project.role}</p>
-                        </div>
-                        <div>
-                            <h4 className="text-sm font-bold uppercase mb-1">Duration</h4>
-                            <p className="text-gray-700">{project.duration}</p>
-                        </div>
-                    </div>
-
-                    <div className="mb-6">
-                        <h4 className="text-lg font-bold mb-2">Highlights</h4>
-                        <ul className="list-none space-y-2">
-                            {project.highlights.map((highlight, idx) => (
-                                <li key={idx} className="flex items-start gap-2">
-                                    <span className="text-[var(--color-accent)] font-bold">•</span>
-                                    <span className="text-gray-700">{highlight}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="flex gap-4">
-                        {project.liveLink && (
-                            <a
-                                href={project.liveLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-hover)] text-black font-bold uppercase hover:bg-black hover:text-[var(--color-hover)] transition-colors"
-                                style={{ border: '2px solid var(--color-black)' }}
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <ExternalLink size={18} />
-                                View Live
-                            </a>
-                        )}
-                        {project.githubLink && (
-                            <a
-                                href={project.githubLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold uppercase hover:bg-black hover:text-white transition-colors"
-                                style={{ border: '2px solid var(--color-black)' }}
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <Github size={18} />
-                                GitHub
-                            </a>
-                        )}
-                    </div>
-                </div>
-            )}
+        <div className="absolute top-4 left-4 flex flex-wrap gap-2 max-w-[80%]">
+          {project.techStack.slice(0, 3).map((tech) => (
+            <span
+              key={tech}
+              className="px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] rounded-full bg-[#0f1423]/75 text-[var(--text)] border border-[#5a6486]"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
-    );
+
+        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow mb-1">{project.duration}</p>
+            <h3 className="text-2xl serif-display leading-[1.05] text-[var(--text)]">
+              {project.title}
+            </h3>
+          </div>
+
+          {project.liveLink && (
+            <a
+              href={project.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button-primary"
+            >
+              View
+              <ExternalLink size={14} />
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div className="p-5 md:p-6">
+        <p className="text-[var(--text-muted)] mb-4 leading-relaxed">
+          {project.shortDesc}
+        </p>
+
+        <p className="text-sm text-[var(--text-muted)]/90 mb-5 leading-relaxed">
+          {project.fullDescription}
+        </p>
+
+        <div className="flex items-center justify-between gap-3">
+          <span className="ghost-chip">{project.role}</span>
+
+          {project.githubLink && (
+            <a
+              href={project.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button-secondary"
+            >
+              GitHub
+              <Github size={14} />
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  );
 }
