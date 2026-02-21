@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/layout/Navigation";
-import Footer from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import BrutalAppShell from "@/components/layout/BrutalAppShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,17 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="theme-minimal scroll-smooth">
+    <html lang="en" className="theme-brutal scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <ThemeProvider>
-          <Navigation />
-          <main className="flex-grow container mx-auto px-4 py-8 max-w-6xl z-10 relative">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
+        <BrutalAppShell>{children}</BrutalAppShell>
       </body>
     </html>
   );

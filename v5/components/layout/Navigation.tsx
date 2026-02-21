@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useTheme } from "@/components/ThemeProvider";
 
 const links = [
   { href: "/", label: "home" },
@@ -13,7 +12,7 @@ const links = [
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("/");
-  const { theme, setTheme } = useTheme();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,83 +55,62 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const themeOptions = [
-    { value: "minimal" as const, label: "Style 1" },
-    { value: "brutal" as const, label: "Style 2" },
-    { value: "cyberpunk" as const, label: "Style 6" },
-  ];
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+  };
 
-  const navLinks = (
-    <>
-      {links.map((link) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          className={`transition-opacity ${
-            activeSection === link.href
-              ? "text-foreground font-bold"
-              : "text-dim"
-          } hover:opacity-80`}
-        >
-          {link.label}
-        </Link>
-      ))}
-    </>
-  );
-
-  if (theme === "minimal") {
-    return (
-      <header className="w-full z-50 sticky top-0 border-b border-border bg-background/95 backdrop-blur">
-        <div className="container mx-auto max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
-          <Link
-            href="/"
-            className="text-xl font-semibold text-foreground tracking-tight"
-          >
-            Veek
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            {navLinks}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            {themeOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => setTheme(option.value)}
-                className={`px-3 py-1 text-xs border border-border rounded-sm ${
-                  theme === option.value
-                    ? "bg-foreground text-background"
-                    : "text-dim"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
-    );
-  }
-
-  if (theme === "brutal") {
-    return (
-      <header className="w-full z-50 sticky top-0 border-b-[3px] border-border bg-background">
-        <div className="container mx-auto max-w-6xl px-4 py-3">
-          <div className="border-[3px] border-border bg-card p-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+  return (
+    <header className="w-full z-50 sticky top-0 border-b-[3px] border-border bg-background">
+      <div className="container mx-auto max-w-6xl px-4 py-3">
+        <div className="border-[3px] border-border bg-card p-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+          <div className="flex items-center justify-between gap-3">
             <Link
               href="/"
-              className="text-2xl font-black uppercase tracking-wide brutal-wipe px-1"
+              onClick={closeMobileMenu}
+              className="text-xl md:text-2xl font-black uppercase tracking-wide brutal-wipe px-1"
             >
               VEEK DEV PORTFOLIO
             </Link>
 
-            <nav className="flex flex-wrap items-center gap-4 text-sm font-bold uppercase">
+            <button
+              type="button"
+              onClick={() => setMobileOpen((prev) => !prev)}
+              className="md:hidden border-[3px] border-border px-3 py-1 text-xs font-black uppercase brutal-wipe"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+              aria-label="Toggle navigation"
+            >
+              {mobileOpen ? "Close" : "Menu"}
+            </button>
+          </div>
+
+          <nav className="hidden md:flex flex-wrap items-center gap-4 text-sm font-bold uppercase mt-3">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`transition-opacity brutal-wipe py-1 px-2 ${
+                  activeSection === link.href
+                    ? "text-foreground font-bold"
+                    : "text-dim"
+                } hover:opacity-80`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {mobileOpen && (
+            <nav
+              id="mobile-nav"
+              className="md:hidden mt-3 border-t-[3px] border-border pt-3 grid gap-2 text-sm font-bold uppercase"
+            >
               {links.map((link) => (
                 <Link
-                  key={link.href}
+                  key={`mobile-${link.href}`}
                   href={link.href}
-                  className={`transition-opacity brutal-wipe py-1 px-2 ${
+                  onClick={closeMobileMenu}
+                  className={`transition-opacity brutal-wipe py-2 px-2 ${
                     activeSection === link.href
                       ? "text-foreground font-bold"
                       : "text-dim"
@@ -142,53 +120,7 @@ export default function Navigation() {
                 </Link>
               ))}
             </nav>
-
-            <div className="flex items-center gap-2">
-              {themeOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => setTheme(option.value)}
-                  className={`px-3 py-1 text-xs font-bold uppercase border-[3px] border-border brutal-wipe ${
-                    theme === option.value
-                      ? "bg-foreground text-background"
-                      : "bg-background text-foreground"
-                  }`}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </header>
-    );
-  }
-
-  return (
-    <header className="w-full z-50 sticky top-0 border-b border-border bg-background/95 backdrop-blur">
-      <div className="container mx-auto max-w-6xl px-4 py-4 grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto_auto] md:items-center">
-        <div className="text-sm uppercase tracking-[0.25em] text-dim">
-          Neon Grid / Profile Node
-        </div>
-
-        <nav className="flex flex-wrap items-center gap-4 text-sm uppercase">
-          {navLinks}
-        </nav>
-
-        <div className="flex items-center gap-2 justify-start md:justify-end">
-          {themeOptions.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => setTheme(option.value)}
-              className={`px-3 py-1 text-xs border border-border uppercase ${
-                theme === option.value
-                  ? "text-background bg-foreground"
-                  : "text-foreground"
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
+          )}
         </div>
       </div>
     </header>
