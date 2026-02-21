@@ -78,10 +78,10 @@ function BrutalTheme() {
         >
           <h2 className="text-2xl font-black uppercase mb-3">About</h2>
           <p className="font-semibold">
-            Software engineer with fintech startup experience, a strong product and
-            execution mindset. I focus on performance, developer experience, and
-            shipping customer-facing features fast while keeping systems stable.
-            I&apos;ve also built real estate products and SDKs that
+            Software engineer with fintech startup experience, a strong product
+            and execution mindset. I focus on performance, developer experience,
+            and shipping customer-facing features fast while keeping systems
+            stable. I&apos;ve also built real estate products and SDKs that
             improve developer velocity and consistency across teams.
           </p>
         </motion.div>
@@ -97,9 +97,7 @@ function BrutalTheme() {
             <li>6x Hackathon Winner</li>
             <li>Scrimba Community Manager (2021 — Present)</li>
             <li>Reduced One Startup MVP Timeline From 13 To 4 Months</li>
-            <li>
-              Built Internal Sdk Workflows To Improve Developer Experience
-            </li>
+            <li>Built Sdk Workflows To Improve Developer Experience</li>
           </ul>
         </motion.div>
       </section>
@@ -143,7 +141,48 @@ function BrutalTheme() {
               </div>
               <h3 className="font-black uppercase mb-2">{project.title}</h3>
               <p className="text-sm font-semibold mb-4">{project.shortDesc}</p>
-              <p className="text-xs uppercase font-bold">{project.duration}</p>
+
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                {project.liveLink && (
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block border-[3px] border-border px-2 py-1 text-[11px] font-black uppercase brutal-wipe"
+                  >
+                    Live
+                  </a>
+                )}
+                {project.githubLink && (
+                  <a
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block border-[3px] border-border px-2 py-1 text-[11px] font-black uppercase brutal-wipe"
+                  >
+                    Github
+                  </a>
+                )}
+                <p className="text-xs uppercase font-bold ml-auto">
+                  {project.duration}
+                </p>
+              </div>
+
+              <details className="border-[3px] border-border bg-background p-3">
+                <summary className="cursor-pointer font-black uppercase text-xs">
+                  Expand Details
+                </summary>
+                <p className="text-sm font-semibold mt-3 mb-3">
+                  {project.fullDescription}
+                </p>
+                <ul className="space-y-1">
+                  {project.highlights.map((highlight) => (
+                    <li key={highlight} className="text-xs font-bold uppercase">
+                      - {highlight}
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </motion.article>
           ))}
         </motion.div>

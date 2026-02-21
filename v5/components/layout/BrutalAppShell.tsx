@@ -9,7 +9,7 @@ function BrutalLoader() {
     <div className="fixed inset-0 z-[200] bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-xl border-[4px] border-border bg-card p-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
         <p className="text-xs md:text-sm uppercase font-black tracking-wide mb-3">
-          Initializing Lucky Victory Success Portfolio
+          Initializing...
         </p>
 
         <div className="border-[3px] border-border bg-background p-4 mb-4">

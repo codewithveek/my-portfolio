@@ -62,14 +62,14 @@ export default function Navigation() {
   return (
     <header className="w-full z-50 sticky top-0 border-b-[3px] border-border bg-background">
       <div className="container mx-auto max-w-6xl px-4 py-3">
-        <div className="border-[3px] border-border bg-card p-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+        <div className=" md:flex items-center justify-between border-[3px] border-border bg-card p-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
           <div className="flex items-center justify-between gap-3">
             <Link
               href="/"
               onClick={closeMobileMenu}
               className="text-xl md:text-2xl font-black uppercase tracking-wide brutal-wipe px-1"
             >
-              VEEK DEV PORTFOLIO
+              VEEK
             </Link>
 
             <button
