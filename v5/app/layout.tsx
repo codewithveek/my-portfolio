@@ -20,12 +20,12 @@ const structuredData = {
     {
       "@type": "Person",
       "@id": "https://veek.me/#person",
-      name: "Veek",
-      alternateName: "Lucky Victory Success",
+      name: "Lucky Victory Success",
+      alternateName: "Veek",
       url: "https://veek.me",
       image: "https://veek.me/opengraph-image",
-      email: "hello@veek.dev",
-      jobTitle: "Full Stack Developer",
+      email: "hello@veek.me",
+      jobTitle: "Software Engineer",
       sameAs: [
         "https://github.com/codewithveek",
         "https://x.com/codewithveek",
@@ -38,7 +38,7 @@ const structuredData = {
       url: "https://veek.me",
       name: "Veek Portfolio",
       description:
-        "Portfolio of Veek — full stack developer building high-performance web products with React, Next.js, TypeScript, and Node.js.",
+        "Portfolio of Lucky Victory Success — software engineer helping startups ship scalable products in fintech and e-commerce.",
       inLanguage: "en",
       publisher: {
         "@id": "https://veek.me/#person",
@@ -48,7 +48,7 @@ const structuredData = {
       "@type": "WebPage",
       "@id": "https://veek.me/#webpage",
       url: "https://veek.me",
-      name: "Veek | Full Stack Developer",
+      name: "Lucky | Full-Stack Engineer",
       isPartOf: {
         "@id": "https://veek.me/#website",
       },
@@ -67,11 +67,11 @@ const structuredData = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://veek.me"),
   title: {
-    default: "Veek | Full Stack Developer",
+    default: "Lucky | Full-Stack Engineer",
     template: "%s | Veek",
   },
   description:
-    "Portfolio of Veek — full stack developer building high-performance web products with React, Next.js, TypeScript, and Node.js.",
+    "Portfolio of Lucky Victory Success — software engineer helping startups launch production-ready products faster across fintech and e-commerce.",
   applicationName: "Veek Portfolio",
   keywords: [
     "Veek",
@@ -87,12 +87,12 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Veek",
+      name: "Lucky Victory Success",
       url: "https://veek.me",
     },
   ],
-  creator: "CodewithVeek",
-  publisher: " CodewithVeek",
+  creator: "Lucky Victory Success",
+  publisher: "CodewithVeek",
   category: "technology",
   alternates: {
     canonical: "/",
@@ -101,11 +101,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://veek.me",
-    title: "Veek | Full Stack Developer",
+    title: "Lucky | Full-Stack Engineer",
     description:
-      "Explore Veek's portfolio: product-focused full stack projects, engineering craft, and modern web architecture.",
+      "Explore Lucky's portfolio: startup-focused engineering, fintech and e-commerce experience, and fast MVP execution.",
     siteName: "Veek Portfolio",
-    emails: ["hello@veek.dev"],
+    emails: ["hello@veek.me"],
     images: [
       {
         url: "/opengraph-image",
@@ -117,9 +117,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Veek | Full Stack Developer",
+    title: "Lucky | Full-Stack Engineer",
     description:
-      "Portfolio of Veek — building fast, scalable, product-driven web experiences.",
+      "Portfolio of Lucky Victory Success — helping startups move fast without breaking systems.",
     creator: "@codewithveek",
     images: ["/twitter-image"],
   },
