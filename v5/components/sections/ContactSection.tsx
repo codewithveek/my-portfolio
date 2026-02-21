@@ -24,9 +24,9 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="py-20">
-      <div className="mb-8">
-        <span className="text-[#008f11]">veek@portfolio</span>:
-        <span className="text-blue-500">~/contact</span>$ ./send_message.sh
+      <div className="mb-8 text-foreground">
+        <span className="text-dim">veek@portfolio</span>:
+        <span className="text-accent">~/contact</span>$ ./send_message.sh
       </div>
 
       <motion.div
@@ -41,15 +41,15 @@ export default function ContactSection() {
         </div>
 
         <div className="space-y-4 font-mono">
-          <p className="text-gray-400">Initializing secure connection...</p>
-          <p className="text-gray-400">Connection established.</p>
+          <p className="text-dim">Initializing secure connection...</p>
+          <p className="text-dim">Connection established.</p>
 
           <form onSubmit={handleSubmit} className="space-y-4 mt-6">
             {step >= 0 && (
               <div className="flex flex-col md:flex-row md:items-center gap-2 relative">
                 <label
                   htmlFor="email"
-                  className="text-yellow-500 whitespace-nowrap"
+                  className="text-accent whitespace-nowrap"
                 >
                   Enter your email:
                 </label>
@@ -60,7 +60,7 @@ export default function ContactSection() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={step > 0}
-                    className="bg-transparent border-none outline-none text-[#00ff41] focus:ring-0 p-0 w-full z-10"
+                    className="bg-transparent border-none outline-none text-foreground focus:ring-0 p-0 w-full z-10"
                     required
                   />
                   {step === 0 && !email && (
@@ -69,7 +69,7 @@ export default function ContactSection() {
                       style={{
                         height: "1.2em",
                         width: "10px",
-                        backgroundColor: "var(--foreground)",
+                        backgroundColor: "var(--fg-color)",
                       }}
                     ></span>
                   )}
@@ -79,7 +79,7 @@ export default function ContactSection() {
 
             {step >= 1 && (
               <div className="flex flex-col gap-2 relative">
-                <label htmlFor="message" className="text-yellow-500">
+                <label htmlFor="message" className="text-accent">
                   Enter your message (press Enter to send):
                 </label>
                 <div className="relative">
@@ -88,7 +88,7 @@ export default function ContactSection() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     disabled={step > 1}
-                    className="bg-transparent border border-[#003b00] outline-none w-full text-[#00ff41] focus:border-[#008f11] p-2 min-h-[100px] resize-none z-10 relative"
+                    className="bg-transparent border border-border outline-none w-full text-foreground focus:border-dim p-2 min-h-[100px] resize-none z-10 relative"
                     autoFocus
                     required
                     onKeyDown={(e) => {
@@ -104,7 +104,7 @@ export default function ContactSection() {
                       style={{
                         height: "1.2em",
                         width: "10px",
-                        backgroundColor: "var(--foreground)",
+                        backgroundColor: "var(--fg-color)",
                       }}
                     ></span>
                   )}
@@ -119,12 +119,12 @@ export default function ContactSection() {
             )}
           </form>
 
-          {status && <div className="mt-4 text-blue-400">{status}</div>}
+          {status && <div className="mt-4 text-accent">{status}</div>}
 
           {step === 2 && (
-            <div className="mt-4">
-              <span className="text-[#008f11]">veek@portfolio</span>:
-              <span className="text-blue-500">~/contact</span>${" "}
+            <div className="mt-4 text-foreground">
+              <span className="text-dim">veek@portfolio</span>:
+              <span className="text-accent">~/contact</span>${" "}
               {/* <span className="cursor"></span> */}
             </div>
           )}

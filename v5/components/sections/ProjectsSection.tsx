@@ -7,9 +7,9 @@ import ProjectCard from "@/components/interactive/ProjectCard";
 export default function ProjectsSection() {
   return (
     <section id="projects" className="py-20">
-      <div className="mb-8">
-        <span className="text-[#008f11]">veek@portfolio</span>:
-        <span className="text-blue-500">~/projects</span>$ ls -la
+      <div className="mb-8 text-foreground">
+        <span className="text-dim">veek@portfolio</span>:
+        <span className="text-accent">~/projects</span>$ ls -la
       </div>
 
       <div className="terminal-window">

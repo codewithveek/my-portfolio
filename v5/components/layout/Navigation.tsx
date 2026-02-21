@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/components/ThemeProvider";
+
+const links = [
+  { href: "/", label: "home" },
+  { href: "#about", label: "about" },
+  { href: "#projects", label: "projects" },
+  { href: "#contact", label: "contact" },
+];
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("/");
-
-  const links = [
-    { href: "/", label: "home" },
-    { href: "#about", label: "about" },
-    { href: "#projects", label: "projects" },
-    { href: "#contact", label: "contact" },
-  ];
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,31 +56,125 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return (
-    <header className="w-full z-50 sticky top-0 bg-[#050505] border-b border-[#003b00] py-4">
-      <div className="container mx-auto px-4 max-w-4xl flex justify-between items-center">
-        <Link
-          href="/"
-          className="text-[#00ff41] font-bold hover:text-white transition-colors"
-        >
-          veek@portfolio:~$
-        </Link>
+  const themeOptions = [
+    { value: "minimal" as const, label: "Style 1" },
+    { value: "brutal" as const, label: "Style 2" },
+    { value: "cyberpunk" as const, label: "Style 6" },
+  ];
 
-        <nav className="hidden md:flex gap-6">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`hover:text-white transition-colors ${
-                activeSection === link.href
-                  ? "text-[#00ff41] font-bold"
-                  : "text-[#008f11]"
+  const navLinks = (
+    <>
+      {links.map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          className={`transition-opacity ${
+            activeSection === link.href
+              ? "text-foreground font-bold"
+              : "text-dim"
+          } hover:opacity-80`}
+        >
+          {link.label}
+        </Link>
+      ))}
+    </>
+  );
+
+  if (theme === "minimal") {
+    return (
+      <header className="w-full z-50 sticky top-0 border-b border-border bg-background/95 backdrop-blur">
+        <div className="container mx-auto max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className="text-xl font-semibold text-foreground tracking-tight"
+          >
+            Veek
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            {navLinks}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            {themeOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => setTheme(option.value)}
+                className={`px-3 py-1 text-xs border border-border rounded-sm ${
+                  theme === option.value
+                    ? "bg-foreground text-background"
+                    : "text-dim"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  if (theme === "brutal") {
+    return (
+      <header className="w-full z-50 sticky top-0 border-b-[3px] border-border bg-background">
+        <div className="container mx-auto max-w-6xl px-4 py-3">
+          <div className="border-[3px] border-border bg-card p-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="text-2xl font-black uppercase tracking-wide">
+              VEEK DEV PORTFOLIO
+            </div>
+
+            <nav className="flex flex-wrap items-center gap-4 text-sm font-bold uppercase">
+              {navLinks}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              {themeOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setTheme(option.value)}
+                  className={`px-3 py-1 text-xs font-bold uppercase border-[3px] border-border ${
+                    theme === option.value
+                      ? "bg-foreground text-background"
+                      : "bg-background text-foreground"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  return (
+    <header className="w-full z-50 sticky top-0 border-b border-border bg-background/95 backdrop-blur">
+      <div className="container mx-auto max-w-6xl px-4 py-4 grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto_auto] md:items-center">
+        <div className="text-sm uppercase tracking-[0.25em] text-dim">
+          Neon Grid / Profile Node
+        </div>
+
+        <nav className="flex flex-wrap items-center gap-4 text-sm uppercase">
+          {navLinks}
+        </nav>
+
+        <div className="flex items-center gap-2 justify-start md:justify-end">
+          {themeOptions.map((option) => (
+            <button
+              key={option.value}
+              onClick={() => setTheme(option.value)}
+              className={`px-3 py-1 text-xs border border-border uppercase ${
+                theme === option.value
+                  ? "text-background bg-foreground"
+                  : "text-foreground"
               }`}
             >
-              [{link.label}]
-            </Link>
+              {option.label}
+            </button>
           ))}
-        </nav>
+        </div>
       </div>
     </header>
   );

@@ -25,9 +25,9 @@ export default function HeroSection() {
           <span>bash - 80x24</span>
           <span>_ X</span>
         </div>
-        <div className="font-mono text-lg md:text-2xl whitespace-pre-wrap">
-          <span className="text-[#008f11]">veek@portfolio</span>:
-          <span className="text-blue-500">~</span>$ ./hello.sh
+        <div className="font-mono text-lg md:text-2xl whitespace-pre-wrap text-foreground">
+          <span className="text-dim">veek@portfolio</span>:
+          <span className="text-accent">~</span>$ ./hello.sh
           <br />
           <br />
           {text}
@@ -39,17 +39,17 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 1 }}
-        className="mt-12 flex gap-6 text-sm"
+        className="mt-12 flex gap-6 text-sm text-dim"
       >
         <a
           href="#projects"
-          className="hover:text-white hover:underline transition-all"
+          className="hover:text-foreground hover:underline transition-all"
         >
           &gt; view_projects
         </a>
         <a
           href="#contact"
-          className="hover:text-white hover:underline transition-all"
+          className="hover:text-foreground hover:underline transition-all"
         >
           &gt; contact_me
         </a>

@@ -13,15 +13,15 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   });
 
   return (
-    <div className="group border-b border-[#003b00] pb-8 last:border-0 last:pb-0">
+    <div className="group border-b border-border pb-8 last:border-0 last:pb-0">
       <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-        <div className="text-gray-500 whitespace-nowrap font-mono text-sm">
+        <div className="text-dim whitespace-nowrap font-mono text-sm">
           drwxr-xr-x 2 veek staff 4096 {date}
         </div>
 
         <div className="flex-grow">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-xl font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
+            <h3 className="text-xl font-bold text-accent group-hover:opacity-80 transition-opacity">
               ./{project.title.toLowerCase().replace(/\s+/g, "-")}
             </h3>
             <div className="flex gap-4">
@@ -30,7 +30,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-white transition-colors"
+                  className="text-dim hover:text-foreground transition-colors"
                 >
                   [src]
                 </a>
@@ -40,7 +40,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   href={project.liveLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-white transition-colors"
+                  className="text-dim hover:text-foreground transition-colors"
                 >
                   [run]
                 </a>
@@ -48,7 +48,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           </div>
 
-          <p className="text-gray-400 mb-4 text-sm md:text-base">
+          <p className="text-foreground opacity-80 mb-4 text-sm md:text-base">
             {project.shortDesc}
           </p>
 
@@ -56,7 +56,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="text-xs text-yellow-500 bg-[#001a00] px-2 py-1 border border-[#003b00]"
+                className="text-xs text-foreground bg-background px-2 py-1 border border-border"
               >
                 {tech}
               </span>

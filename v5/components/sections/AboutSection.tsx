@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 export default function AboutSection() {
   return (
     <section id="about" className="py-20">
-      <div className="mb-8">
-        <span className="text-[#008f11]">veek@portfolio</span>:
-        <span className="text-blue-500">~/about</span>$ cat profile.txt
+      <div className="mb-8 text-foreground">
+        <span className="text-dim">veek@portfolio</span>:
+        <span className="text-accent">~/about</span>$ cat profile.txt
       </div>
 
       <motion.div
@@ -21,15 +21,15 @@ export default function AboutSection() {
           <span>rw-r--r--</span>
         </div>
 
-        <div className="space-y-6 text-sm md:text-base">
+        <div className="space-y-6 text-sm md:text-base text-foreground">
           <p>
-            <span className="text-gray-500"># NAME</span>
+            <span className="text-dim"># NAME</span>
             <br />
             Veek - Full Stack Developer
           </p>
 
           <p>
-            <span className="text-gray-500"># DESCRIPTION</span>
+            <span className="text-dim"># DESCRIPTION</span>
             <br />I am a passionate developer who loves building things for the
             web. I specialize in React, Next.js, Node.js, and modern web
             technologies. When I'm not coding, I'm probably exploring new tech
@@ -37,20 +37,19 @@ export default function AboutSection() {
           </p>
 
           <p>
-            <span className="text-gray-500"># SKILLS</span>
+            <span className="text-dim"># SKILLS</span>
             <br />
-            <span className="text-yellow-500">Frontend:</span> React, Next.js,
+            <span className="text-accent">Frontend:</span> React, Next.js,
             TypeScript, Tailwind CSS
             <br />
-            <span className="text-yellow-500">Backend:</span> Node.js, Express,
+            <span className="text-accent">Backend:</span> Node.js, Express,
             PostgreSQL, MongoDB
             <br />
-            <span className="text-yellow-500">Tools:</span> Git, Docker, AWS,
-            Vercel
+            <span className="text-accent">Tools:</span> Git, Docker, AWS, Vercel
           </p>
 
           <p>
-            <span className="text-gray-500"># STATUS</span>
+            <span className="text-dim"># STATUS</span>
             <br />
             [OK] Ready for new opportunities.
           </p>

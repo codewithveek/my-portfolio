@@ -3,29 +3,106 @@
 @theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-background: var(--bg-color);
+  --color-foreground: var(--fg-color);
+  --color-dim: var(--dim-color);
+  --color-border: var(--border-color);
+  --color-error: var(--error-color);
+  --color-accent: var(--accent-color);
+  --color-card: var(--card-color);
 }
 
 :root {
-  --background: #050505;
-  --foreground: #00ff41;
-  --dim: #008f11;
-  --border: #003b00;
-  --error: #ff003c;
+  /* Default to Terminal */
+  --bg-color: #050505;
+  --fg-color: #00ff41;
+  --dim-color: #008f11;
+  --border-color: #003b00;
+  --error-color: #ff003c;
+  --accent-color: #3b82f6;
+  --card-color: #000000;
+  --font-primary: var(--font-geist-mono);
+  --shadow-brutal: none;
+  --glow-cyber: none;
+  --radius-base: 0px;
+  --border-width-base: 1px;
+}
+
+.theme-terminal {
+  --bg-color: #050505;
+  --fg-color: #00ff41;
+  --dim-color: #008f11;
+  --border-color: #003b00;
+  --error-color: #ff003c;
+  --accent-color: #3b82f6;
+  --card-color: #000000;
+  --font-primary: var(--font-geist-mono);
+  --shadow-brutal: none;
+  --glow-cyber: none;
+  --radius-base: 0px;
+  --border-width-base: 1px;
+}
+
+.theme-minimal {
+  --bg-color: #ffffff;
+  --fg-color: #171717;
+  --dim-color: #737373;
+  --border-color: #e5e5e5;
+  --error-color: #ef4444;
+  --accent-color: #000000;
+  --card-color: #fafafa;
+  --font-primary: var(--font-geist-sans);
+  --shadow-brutal: none;
+  --glow-cyber: none;
+  --radius-base: 8px;
+  --border-width-base: 1px;
+}
+
+.theme-brutal {
+  --bg-color: #f4f4f0;
+  --fg-color: #000000;
+  --dim-color: #000000;
+  --border-color: #000000;
+  --error-color: #ff0000;
+  --accent-color: #ff3366;
+  --card-color: #ffffff;
+  --font-primary: var(--font-geist-sans);
+  --shadow-brutal: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --glow-cyber: none;
+  --radius-base: 0px;
+  --border-width-base: 3px;
+}
+
+.theme-cyberpunk {
+  --bg-color: #0f0f1a;
+  --fg-color: #00ffff;
+  --dim-color: #ff00ff;
+  --border-color: #00ffff;
+  --error-color: #ff003c;
+  --accent-color: #fcee0a;
+  --card-color: #1a1a2e;
+  --font-primary: var(--font-geist-mono);
+  --shadow-brutal: none;
+  --glow-cyber: 0 0 10px rgba(0, 255, 255, 0.5);
+  --radius-base: 0px;
+  --border-width-base: 1px;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-mono), monospace;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  font-family: var(--font-primary), monospace;
   line-height: 1.6;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
-  background-color: var(--foreground);
-  color: var(--background);
+  background-color: var(--fg-color);
+  color: var(--bg-color);
 }
 
 /* CRT Scanline Effect */
@@ -37,7 +114,13 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
   z-index: 2;
   background-size: 100% 2px, 3px 100%;
   pointer-events: none;
@@ -48,32 +131,43 @@ body {
   display: inline-block;
   width: 10px;
   height: 1.2em;
-  background-color: var(--foreground);
+  background-color: var(--fg-color);
   vertical-align: middle;
   animation: blink 1s step-end infinite;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
-/* Terminal Window */
+/* Terminal Window / Card */
 .terminal-window {
-  border: 1px solid var(--dim);
-  background-color: #000;
+  border: var(--border-width-base) solid var(--border-color);
+  background-color: var(--card-color);
   padding: 1rem;
   position: relative;
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-brutal);
+  transition: all 0.3s ease;
+}
+.theme-cyberpunk .terminal-window {
+  box-shadow: var(--glow-cyber);
 }
 
 .terminal-header {
-  border-bottom: 1px solid var(--dim);
+  border-bottom: var(--border-width-base) solid var(--border-color);
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   font-size: 0.875rem;
-  color: var(--dim);
+  color: var(--dim-color);
 }
 
 /* Scrollbar */
@@ -81,13 +175,12 @@ body {
   width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background);
-  border-left: 1px solid var(--border);
+  background: var(--bg-color);
+  border-left: var(--border-width-base) solid var(--border-color);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--dim);
+  background: var(--dim-color);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground);
+  background: var(--fg-color);
 }
-
