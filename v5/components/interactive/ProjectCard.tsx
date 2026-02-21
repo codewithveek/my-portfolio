@@ -1,101 +1,69 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { Project } from "@/data/projects";
 import { ExternalLink, Github } from "lucide-react";
-import type { Project } from "@/data/projects";
 
 interface ProjectCardProps {
   project: Project;
+  index: number;
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
-  const gradients = [
-    "linear-gradient(145deg, #3a4778, #1b2237)",
-    "linear-gradient(145deg, #3f5d74, #15232f)",
-    "linear-gradient(145deg, #4f3b75, #1f1835)",
-    "linear-gradient(145deg, #4f4e74, #1f2038)",
-  ];
-
-  const visual = gradients[project.id % gradients.length];
+export default function ProjectCard({ project, index }: ProjectCardProps) {
+  const date = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "2-digit",
+  });
 
   return (
-    <motion.article
-      className="rounded-3xl overflow-hidden"
-      style={{
-        border: "1px solid var(--line)",
-        background: "linear-gradient(180deg, #12192a, #0f1422)",
-      }}
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="relative h-[260px] md:h-[300px] overflow-hidden">
-        <motion.div
-          className="absolute inset-0"
-          style={{ background: visual }}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.45 }}
-        />
-
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(5,7,12,0.78))]" />
-
-        <div className="absolute top-4 left-4 flex flex-wrap gap-2 max-w-[80%]">
-          {project.techStack.slice(0, 3).map((tech) => (
-            <span
-              key={tech}
-              className="px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] rounded-full bg-[#0f1423]/75 text-[var(--text)] border border-[#5a6486]"
-            >
-              {tech}
-            </span>
-          ))}
+    <div className="group border-b border-[#003b00] pb-8 last:border-0 last:pb-0">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+        <div className="text-gray-500 whitespace-nowrap font-mono text-sm">
+          drwxr-xr-x 2 veek staff 4096 {date}
         </div>
 
-        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow mb-1">{project.duration}</p>
-            <h3 className="text-2xl serif-display leading-[1.05] text-[var(--text)]">
-              {project.title}
+        <div className="flex-grow">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-xl font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
+              ./{project.title.toLowerCase().replace(/\s+/g, "-")}
             </h3>
+            <div className="flex gap-4">
+              {project.githubLink && (
+                <a
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-white transition-colors"
+                >
+                  [src]
+                </a>
+              )}
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-white transition-colors"
+                >
+                  [run]
+                </a>
+              )}
+            </div>
           </div>
 
-          {project.liveLink && (
-            <a
-              href={project.liveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="button-primary"
-            >
-              View
-              <ExternalLink size={14} />
-            </a>
-          )}
+          <p className="text-gray-400 mb-4 text-sm md:text-base">
+            {project.shortDesc}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {project.techStack.map((tech) => (
+              <span
+                key={tech}
+                className="text-xs text-yellow-500 bg-[#001a00] px-2 py-1 border border-[#003b00]"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
-
-      <div className="p-5 md:p-6">
-        <p className="text-[var(--text-muted)] mb-4 leading-relaxed">
-          {project.shortDesc}
-        </p>
-
-        <p className="text-sm text-[var(--text-muted)]/90 mb-5 leading-relaxed">
-          {project.fullDescription}
-        </p>
-
-        <div className="flex items-center justify-between gap-3">
-          <span className="ghost-chip">{project.role}</span>
-
-          {project.githubLink && (
-            <a
-              href={project.githubLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="button-secondary"
-            >
-              GitHub
-              <Github size={14} />
-            </a>
-          )}
-        </div>
-      </div>
-    </motion.article>
+    </div>
   );
 }

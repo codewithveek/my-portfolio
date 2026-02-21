@@ -1,41 +1,22 @@
 import type { Metadata } from "next";
-import {
-  Cormorant_Garamond,
-  Space_Grotesk,
-  Inter,
-  JetBrains_Mono,
-} from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navigation from "@/components/layout/Navigation";
+import Footer from "@/components/layout/Footer";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "600", "700"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Your Name — Product & Web Engineer",
-  description:
-    "An editorial-style portfolio showcasing selected projects, systems thinking, and modern product engineering.",
+  title: "Veek | Terminal",
+  description: "Full Stack Developer Portfolio",
 };
 
 export default function RootLayout({
@@ -44,11 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${cormorant.variable} ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased crt min-h-screen flex flex-col`}
       >
-        {children}
+        <Navigation />
+        <main className="flex-grow container mx-auto px-4 py-8 max-w-4xl z-10 relative">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
