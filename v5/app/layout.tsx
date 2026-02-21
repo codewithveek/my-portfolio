@@ -14,6 +14,56 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://veek.me/#person",
+      name: "Veek",
+      alternateName: "Lucky Victory Success",
+      url: "https://veek.me",
+      image: "https://veek.me/opengraph-image",
+      email: "hello@veek.dev",
+      jobTitle: "Full Stack Developer",
+      sameAs: [
+        "https://github.com/codewithveek",
+        "https://x.com/codewithveek",
+        "https://linkedin.com/in/lucky-victory-success",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://veek.me/#website",
+      url: "https://veek.me",
+      name: "Veek Portfolio",
+      description:
+        "Portfolio of Veek — full stack developer building high-performance web products with React, Next.js, TypeScript, and Node.js.",
+      inLanguage: "en",
+      publisher: {
+        "@id": "https://veek.me/#person",
+      },
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://veek.me/#webpage",
+      url: "https://veek.me",
+      name: "Veek | Full Stack Developer",
+      isPartOf: {
+        "@id": "https://veek.me/#website",
+      },
+      about: {
+        "@id": "https://veek.me/#person",
+      },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: "https://veek.me/opengraph-image",
+      },
+      inLanguage: "en",
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://veek.me"),
   title: {
@@ -104,6 +154,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <BrutalAppShell>{children}</BrutalAppShell>
         <Analytics />
       </body>
