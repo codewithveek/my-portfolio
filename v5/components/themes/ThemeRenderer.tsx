@@ -54,7 +54,7 @@ function BrutalTheme() {
         viewport={{ once: true, amount: 0.3 }}
       >
         <p className="text-sm uppercase font-bold mb-2">
-          Style 2 · Neo Brutalist
+          Veek · Full Stack Portfolio
         </p>
         <h1 className="text-4xl md:text-6xl font-black uppercase leading-none">
           I ship products.
