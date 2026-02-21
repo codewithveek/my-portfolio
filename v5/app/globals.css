@@ -160,6 +160,34 @@ body {
   box-shadow: var(--glow-cyber);
 }
 
+/* Brutalism hover wipe/slide fill */
+.theme-brutal .brutal-wipe {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.22s ease;
+}
+
+.theme-brutal .brutal-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--fg-color);
+  transform: translateX(-102%);
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: -1;
+}
+
+.theme-brutal .brutal-wipe:hover::before,
+.theme-brutal .brutal-wipe:focus-visible::before {
+  transform: translateX(0%);
+}
+
+.theme-brutal .brutal-wipe:hover,
+.theme-brutal .brutal-wipe:focus-visible {
+  color: var(--bg-color);
+}
+
 .terminal-header {
   border-bottom: var(--border-width-base) solid var(--border-color);
   padding-bottom: 0.5rem;

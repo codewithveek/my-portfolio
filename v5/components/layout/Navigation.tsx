@@ -120,12 +120,27 @@ export default function Navigation() {
       <header className="w-full z-50 sticky top-0 border-b-[3px] border-border bg-background">
         <div className="container mx-auto max-w-6xl px-4 py-3">
           <div className="border-[3px] border-border bg-card p-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="text-2xl font-black uppercase tracking-wide">
+            <Link
+              href="/"
+              className="text-2xl font-black uppercase tracking-wide brutal-wipe px-1"
+            >
               VEEK DEV PORTFOLIO
-            </div>
+            </Link>
 
             <nav className="flex flex-wrap items-center gap-4 text-sm font-bold uppercase">
-              {navLinks}
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`transition-opacity brutal-wipe py-1 px-2 ${
+                    activeSection === link.href
+                      ? "text-foreground font-bold"
+                      : "text-dim"
+                  } hover:opacity-80`}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
 
             <div className="flex items-center gap-2">
@@ -133,7 +148,7 @@ export default function Navigation() {
                 <button
                   key={option.value}
                   onClick={() => setTheme(option.value)}
-                  className={`px-3 py-1 text-xs font-bold uppercase border-[3px] border-border ${
+                  className={`px-3 py-1 text-xs font-bold uppercase border-[3px] border-border brutal-wipe ${
                     theme === option.value
                       ? "bg-foreground text-background"
                       : "bg-background text-foreground"

@@ -136,7 +136,7 @@ function BrutalTheme() {
         </p>
         <a
           href="mailto:hello@veek.dev"
-          className="inline-block border-[3px] border-border px-4 py-2 font-black uppercase hover:translate-x-[2px] hover:-translate-y-[2px] transition-transform"
+          className="inline-block border-[3px] border-border px-4 py-2 font-black uppercase hover:translate-x-[2px] hover:-translate-y-[2px] transition-transform brutal-wipe"
         >
           Contact Now
         </a>
