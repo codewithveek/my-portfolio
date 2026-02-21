@@ -45,7 +45,7 @@ export default function TwitterImage() {
               fontWeight: 900,
             }}
           >
-            Veek · Full Stack Developer
+            Lucky Victory Success · Full-Stack Engineer
           </div>
 
           <div
@@ -56,7 +56,9 @@ export default function TwitterImage() {
               lineHeight: 0.95,
             }}
           >
-            Portfolio
+            Building
+            <br />
+            For Startups
           </div>
 
           <div
@@ -67,7 +69,7 @@ export default function TwitterImage() {
             }}
           >
             <div style={{ fontSize: 30, fontWeight: 700 }}>
-              Product-focused engineering
+              Fintech · Real Estate · Developer SDKs
             </div>
             <div
               style={{

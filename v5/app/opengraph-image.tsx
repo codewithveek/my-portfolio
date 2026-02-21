@@ -54,7 +54,7 @@ export default function OpenGraphImage() {
                 letterSpacing: "0.08em",
               }}
             >
-              Veek · Full Stack Portfolio
+              Lucky Victory Success · Full-Stack Engineer
             </div>
             <div
               style={{
@@ -74,34 +74,70 @@ export default function OpenGraphImage() {
                 textTransform: "uppercase",
               }}
             >
-              Ship Hard.
+             Ship Faster.
             </div>
           </div>
 
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: "column",
+              gap: "18px",
             }}
           >
             <div
               style={{
-                fontSize: 30,
-                fontWeight: 700,
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
               }}
             >
-              React · Next.js · TypeScript · Node.js
+              {[
+                "Fintech",
+                "Real Estate",
+                "Developer SDKs",
+                "TypeScript",
+              ].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 800,
+                    border: "4px solid #000",
+                    padding: "6px 12px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {item}
+                </div>
+              ))}
             </div>
+
             <div
               style={{
-                fontSize: 30,
-                fontWeight: 900,
-                padding: "10px 16px",
-                border: "5px solid #000",
+                display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
               }}
             >
-              VEEK.ME
+              <div
+                style={{
+                  fontSize: 28,
+                  fontWeight: 700,
+                }}
+              >
+                React · Next.js · TypeScript · Node.js
+              </div>
+              <div
+                style={{
+                  fontSize: 30,
+                  fontWeight: 900,
+                  padding: "10px 16px",
+                  border: "5px solid #000",
+                }}
+              >
+                VEEK.ME
+              </div>
             </div>
           </div>
         </div>

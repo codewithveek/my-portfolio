@@ -9,7 +9,7 @@ function BrutalLoader() {
     <div className="fixed inset-0 z-[200] bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-xl border-[4px] border-border bg-card p-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
         <p className="text-xs md:text-sm uppercase font-black tracking-wide mb-3">
-          Booting Brutal Portfolio Engine
+          Initializing Lucky Victory Success Portfolio
         </p>
 
         <div className="border-[3px] border-border bg-background p-4 mb-4">
@@ -86,9 +86,9 @@ function BrutalLoader() {
         </div>
 
         <div className="text-sm md:text-base font-black uppercase flex items-center justify-between gap-4">
-          <span>Rendering Blocks...</span>
+          <span>Loading Projects, Experience & Testimonials</span>
           <span className="inline-block min-w-20 text-right">
-            <span>LOADING</span>
+            <span>PLEASE WAIT</span>
             <span className="inline-block w-6">...</span>
           </span>
         </div>
