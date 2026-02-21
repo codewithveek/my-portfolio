@@ -4,55 +4,58 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const links = [
-  { href: "/", label: "home" },
+  { href: "#home", label: "home" },
   { href: "#about", label: "about" },
   { href: "#projects", label: "projects" },
   { href: "#contact", label: "contact" },
 ];
 
 export default function Navigation() {
-  const [activeSection, setActiveSection] = useState("/");
+  const [activeSection, setActiveSection] = useState("#home");
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = links
-        .map((link) => link.href.replace("#", ""))
-        .filter((id) => id !== "/");
+    const sectionIds = links.map((link) => link.href.replace("#", ""));
+    const visibleRatios = new Map<string, number>();
 
-      let current = "/";
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          visibleRatios.set(
+            id,
+            entry.isIntersecting ? entry.intersectionRatio : 0
+          );
+        }
 
-      if (window.scrollY < 100) {
-        setActiveSection("/");
-        return;
-      }
+        let bestId = sectionIds[0];
+        let bestRatio = 0;
 
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 50
-      ) {
-        setActiveSection("#contact");
-        return;
-      }
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            current = `#${section}`;
-            break;
+        for (const id of sectionIds) {
+          const ratio = visibleRatios.get(id) ?? 0;
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
           }
         }
+
+        setActiveSection(`#${bestId}`);
+      },
+      {
+        root: null,
+        rootMargin: "-96px 0px -45% 0px",
+        threshold: [0.1, 0.25, 0.5, 0.75],
       }
+    );
 
-      setActiveSection(current);
-    };
+    for (const id of sectionIds) {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => observer.disconnect();
   }, []);
 
   const closeMobileMenu = () => {
