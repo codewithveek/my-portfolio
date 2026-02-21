@@ -18,13 +18,13 @@ export const projects: Project[] = [
     id: 1,
     title: "Real Estate Platform",
     thumbnail: "/images/real-estate.png",
-    fullImage: "/images/real-estate-full.jpg",
+    fullImage: "/images/real-estate.png",
     shortDesc: "Scalable platform for property listings, virtual tours",
     fullDescription:
       "Built a scalable real estate platform. Implemented real-time property listings, blog,and personalized recommendations. Achieved 99.9% uptime and sub-200ms API response times.",
     techStack: ["React", "Node.js", "MySQL", "Next.js"],
     role: "Lead Developer",
-    duration: "4 months",
+    duration: "",
     highlights: [
       "Reduced page load time by 60%",
       "Implemented CI/CD pipeline",
@@ -42,14 +42,7 @@ export const projects: Project[] = [
       "TypeScript-first media upload SDK with one API across Cloudinary, S3, and R2",
     fullDescription:
       "Built FluxMedia, a provider-agnostic media upload SDK that lets teams write upload logic once and switch providers without rewriting app code. The platform includes a unified API, plugin system, React hooks, and a tree-shakeable package architecture focused on production DX.",
-    techStack: [
-      "TypeScript",
-      "React",
-      "Node.js",
-      "Cloudinary",
-      "AWS S3",
-      "Cloudflare R2",
-    ],
+    techStack: ["TypeScript", "React", "Node.js", "Cloudinary", "AWS S3"],
     role: "Creator & Maintainer",
     duration: "Ongoing",
     highlights: [
@@ -71,7 +64,7 @@ export const projects: Project[] = [
       "Built and documented the Afriex SDK to simplify integration with core business API workflows including customers, transactions, payment methods, balances, rates, and webhooks. The SDK is modular, resilient, and strongly typed for safer integrations.",
     techStack: ["TypeScript", "SDK Design", "API Integration", "Node.js"],
     role: "SDK Engineer",
-    duration: "Ongoing",
+    duration: "24 hrs",
     highlights: [
       "Type-safe SDK surface with modular package usage",
       "Built-in retry logic and robust error handling",
