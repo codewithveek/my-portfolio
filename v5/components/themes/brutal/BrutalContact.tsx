@@ -36,7 +36,10 @@ export default function BrutalContact() {
     event.preventDefault();
     setStatus(null);
 
-    const formData = new FormData(event.currentTarget);
+    // Capture before any await — React nullifies currentTarget after the handler yields
+    const form = event.currentTarget;
+
+    const formData = new FormData(form);
     const payload = {
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
@@ -65,10 +68,22 @@ export default function BrutalContact() {
         body: JSON.stringify(parsedPayload.data),
       });
 
-      const result = (await response.json()) as {
+      const rawResponse = await response.text();
+      let result: {
         error?: string;
         message?: string;
-      };
+      } = {};
+
+      if (rawResponse) {
+        try {
+          result = JSON.parse(rawResponse) as {
+            error?: string;
+            message?: string;
+          };
+        } catch {
+          result = {};
+        }
+      }
 
       if (!response.ok) {
         setStatus({
@@ -85,7 +100,7 @@ export default function BrutalContact() {
         message: result.message || "Message sent successfully.",
       });
 
-      event.currentTarget.reset();
+      form.reset();
     } catch {
       setStatus({
         type: "error",
@@ -164,7 +179,7 @@ export default function BrutalContact() {
         {status && (
           <p
             className={`text-xs  font-black uppercase ${
-              status.type === "success" ? "text-foreground" : "text-red-600"
+              status.type === "success" ? "text-green-700" : "text-red-600"
             }`}
             role="status"
             aria-live="polite"

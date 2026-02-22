@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactMessages } from "@/db/schema";
-import { getDb } from "@/db";
 import { applyInMemoryRateLimit } from "@/lib/rate-limit";
 import { contactSubmissionSchema } from "@/lib/validation/contact";
+import { db } from "@/db";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
   const { name, email, message } = parsedBody.data;
 
   try {
-    const db = getDb();
+    
 
     await db.insert(contactMessages).values({
       name,

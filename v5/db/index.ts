@@ -1,7 +1,5 @@
 import { drizzle } from "drizzle-orm/mysql2";
-import { createPool, type Pool } from "mysql2/promise";
-
-let pool: Pool | null = null;
+import { createPool } from "mysql2/promise";
 
 function getDatabaseUrl() {
   const databaseUrl = process.env.DATABASE_URL;
@@ -13,16 +11,12 @@ function getDatabaseUrl() {
   return databaseUrl;
 }
 
-export function getDb() {
-  if (!pool) {
-    pool = createPool({
-      uri: getDatabaseUrl(),
-      waitForConnections: true,
-      connectionLimit: 10,
-      maxIdle: 10,
-      idleTimeout: 60_000,
-    });
-  }
-
-  return drizzle({ client: pool,mode:'planetscale' });
-}
+const connection = createPool({
+  uri: getDatabaseUrl(),
+  waitForConnections: true,
+  connectionLimit: 10,
+  maxIdle: 10,
+  idleTimeout: 60_000,
+  queueLimit: 0,
+});
+export const db = drizzle(connection, { mode: "planetscale" });
