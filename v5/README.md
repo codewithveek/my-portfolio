@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Database Setup (MySQL + Drizzle)
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `DATABASE_URL` to your MySQL connection string.
+3. Start the app with `npm run dev`.
+
+The contact form API route (`/api/contact`) uses:
+- `db/schema/contactMessages.ts` for the Drizzle MySQL table schema.
+- `lib/db.ts` for MySQL connection pooling and Drizzle initialization.
