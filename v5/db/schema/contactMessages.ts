@@ -15,13 +15,16 @@ export const contactMessages = mysqlTable(
       .default(sql`(uuid())`),
     name: varchar("name", { length: 80 }).notNull(),
     email: varchar("email", { length: 120 }).notNull(),
+    ipAddress: varchar("ip_address", { length: 64 }).notNull(),
+    userAgent: varchar("user_agent", { length: 512 }).notNull(),
     message: text("message").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
-  (table) => ({
-    emailIdx: index("contact_messages_email_idx").on(table.email),
-    createdAtIdx: index("contact_messages_created_at_idx").on(table.createdAt),
-  })
+  (table) => ([
+    index("contact_messages_email_idx").on(table.email),
+    index("contact_messages_ip_address_idx").on(table.ipAddress),
+    index("contact_messages_created_at_idx").on(table.createdAt),
+  ])
 );
 
 export type ContactMessage = typeof contactMessages.$inferSelect;

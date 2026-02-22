@@ -6,20 +6,40 @@ import { contactSubmissionSchema } from "@/lib/validation/contact";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+const MAX_IP_ADDRESS_LENGTH = 64;
+const MAX_USER_AGENT_LENGTH = 512;
 
 function getClientIdentifier(request: NextRequest) {
   const forwardedFor = request.headers.get("x-forwarded-for");
   const realIp = request.headers.get("x-real-ip");
+  const cfConnectingIp = request.headers.get("cf-connecting-ip");
 
   if (forwardedFor) {
     return forwardedFor.split(",")[0]?.trim() || "unknown";
   }
 
+  if (cfConnectingIp) {
+    return cfConnectingIp;
+  }
+
   return realIp || "unknown";
+}
+
+function normalizeClientMetadata(value: string | null, maxLength: number) {
+  if (!value) {
+    return "unknown";
+  }
+
+  return value.trim().slice(0, maxLength) || "unknown";
 }
 
 export async function POST(request: NextRequest) {
   const clientId = getClientIdentifier(request);
+  const ipAddress = normalizeClientMetadata(clientId, MAX_IP_ADDRESS_LENGTH);
+  const userAgent = normalizeClientMetadata(
+    request.headers.get("user-agent"),
+    MAX_USER_AGENT_LENGTH
+  );
   const rateLimit = applyInMemoryRateLimit(
     `contact:${clientId}`,
     RATE_LIMIT_MAX_REQUESTS,
@@ -73,6 +93,8 @@ export async function POST(request: NextRequest) {
     await db.insert(contactMessages).values({
       name,
       email,
+      ipAddress,
+      userAgent,
       message,
     });
   } catch (error) {
