@@ -126,68 +126,82 @@ export default function BrutalContact() {
         collaboration.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-        <div className="grid gap-3 md:grid-cols-2">
-          <label className="block">
-            <span className="text-xs font-black uppercase mb-1 block">
-              Name
-            </span>
-            <input
-              name="name"
-              type="text"
-              maxLength={CONTACT_NAME_MAX}
-              required
-              className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform"
-            />
-          </label>
+      <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
+        <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+          <div className="grid gap-3 md:grid-cols-2">
+            <label className="block">
+              <span className="text-xs font-black uppercase mb-1 block">
+                Name
+              </span>
+              <input
+                name="name"
+                type="text"
+                maxLength={CONTACT_NAME_MAX}
+                required
+                className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform"
+              />
+            </label>
+
+            <label className="block">
+              <span className="text-xs font-black uppercase mb-1 block">
+                Email
+              </span>
+              <input
+                name="email"
+                type="email"
+                maxLength={CONTACT_EMAIL_MAX}
+                required
+                className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform"
+              />
+            </label>
+          </div>
 
           <label className="block">
             <span className="text-xs font-black uppercase mb-1 block">
-              Email
+              Message
             </span>
-            <input
-              name="email"
-              type="email"
-              maxLength={CONTACT_EMAIL_MAX}
+            <textarea
+              name="message"
+              rows={5}
+              maxLength={CONTACT_MESSAGE_MAX}
               required
-              className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform"
+              className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform resize-y"
             />
           </label>
-        </div>
 
-        <label className="block">
-          <span className="text-xs font-black uppercase mb-1 block">
-            Message
-          </span>
-          <textarea
-            name="message"
-            rows={5}
-            maxLength={CONTACT_MESSAGE_MAX}
-            required
-            className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform resize-y"
-          />
-        </label>
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="inline-block border-[3px] border-border px-4 py-2 font-black uppercase hover:translate-x-[2px] hover:-translate-y-[2px] transition-transform brutal-wipe disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0"
-        >
-          {isSubmitting ? "Sending..." : "Send Message"}
-        </button>
-
-        {status && (
-          <p
-            className={`text-xs  font-black uppercase ${
-              status.type === "success" ? "text-green-700" : "text-red-600"
-            }`}
-            role="status"
-            aria-live="polite"
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="inline-block border-[3px] border-border px-4 py-2 font-black uppercase hover:translate-x-[2px] hover:-translate-y-[2px] transition-transform brutal-wipe disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0"
           >
-            {status.message}
+            {isSubmitting ? "Sending..." : "Send Message"}
+          </button>
+
+          {status && (
+            <p
+              className={`text-xs  font-black uppercase ${
+                status.type === "success" ? "text-green-700" : "text-red-600"
+              }`}
+              role="status"
+              aria-live="polite"
+            >
+              {status.message}
+            </p>
+          )}
+        </form>
+
+        {/* Quote column */}
+        <div className="border-[3px] border-border bg-foreground text-background p-5 shadow-[6px_6px_0_0_rgba(0,0,0,1)] flex flex-col justify-between gap-6">
+          <p className="text-base md:text-lg font-black uppercase leading-snug">
+            &ldquo;Every great partnership started with someone being bold
+            enough to say hello.&rdquo;
           </p>
-        )}
-      </form>
+          <p className="text-xs font-bold uppercase tracking-wide opacity-70">
+            &mdash; Unknown
+          </p>
+        </div>
+      </div>
+      {/* end grid */}
 
       <div className="mt-5 border-t-[3px] border-border pt-4">
         <p className="text-xs font-black uppercase mb-2">Socials</p>
