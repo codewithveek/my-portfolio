@@ -2,6 +2,12 @@
 
 import { motion } from "framer-motion";
 import { FormEvent, useState } from "react";
+import {
+  CONTACT_EMAIL_MAX,
+  CONTACT_MESSAGE_MAX,
+  CONTACT_NAME_MAX,
+  contactSubmissionSchema,
+} from "@/lib/validation/contact";
 import { slideUpVariant } from "./motionVariants";
 
 export default function BrutalContact() {
@@ -37,10 +43,13 @@ export default function BrutalContact() {
       message: String(formData.get("message") || "").trim(),
     };
 
-    if (!payload.name || !payload.email || !payload.message) {
+    const parsedPayload = contactSubmissionSchema.safeParse(payload);
+
+    if (!parsedPayload.success) {
       setStatus({
         type: "error",
-        message: "Please fill out your name, email, and message.",
+        message:
+          parsedPayload.error.issues[0]?.message || "Please fix form errors.",
       });
       return;
     }
@@ -53,7 +62,7 @@ export default function BrutalContact() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(parsedPayload.data),
       });
 
       const result = (await response.json()) as {
@@ -111,7 +120,7 @@ export default function BrutalContact() {
             <input
               name="name"
               type="text"
-              maxLength={80}
+              maxLength={CONTACT_NAME_MAX}
               required
               className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform"
             />
@@ -124,7 +133,7 @@ export default function BrutalContact() {
             <input
               name="email"
               type="email"
-              maxLength={120}
+              maxLength={CONTACT_EMAIL_MAX}
               required
               className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform"
             />
@@ -138,7 +147,7 @@ export default function BrutalContact() {
           <textarea
             name="message"
             rows={5}
-            maxLength={3000}
+            maxLength={CONTACT_MESSAGE_MAX}
             required
             className="w-full border-[3px] border-border bg-background px-3 py-2 text-sm font-semibold outline-none focus:translate-x-[2px] focus:-translate-y-[2px] transition-transform resize-y"
           />
